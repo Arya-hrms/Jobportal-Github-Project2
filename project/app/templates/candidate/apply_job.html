@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for {{ job.title }}</title>
+    <style>/* Reset & Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(
+        135deg,
+        #4f46e5 0%,
+        #7c3aed 50%,
+        #db2777 100%
+    );
+    color: #1e293b;
+    line-height: 1.6;
+    padding: 40px 20px;
+    min-height: 100vh;
+}
+
+/* Main Container */
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+/* Page Header */
+.page-header {
+    margin-bottom: 24px;
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 5px;
+}
+
+/* Cards */
+.card {
+    background: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    padding: 30px;
+    margin-bottom: 24px;
+}
+
+/* Card Headings */
+.card-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #1e1b4b;
+}
+
+/* Job & Profile Information */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.info-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+.info-value {
+    font-size: 1rem;
+    color: #1e293b;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+/* Profile Section Headings */
+.section-divider {
+    margin: 24px 0 12px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1e1b4b;
+}
+
+/* Skills Tags */
+.skills-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-tag {
+    background: #ede9fe;
+    color: #6d28d9;
+    padding: 5px 13px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+/* Resume Link */
+.btn-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+.btn-link:hover {
+    color: #7c3aed;
+    text-decoration: underline;
+}
+
+.empty-text {
+    color: #64748b;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+/* Application Form */
+.application-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Confirmation Checkbox */
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: #334155;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 4px;
+    flex-shrink: 0;
+    accent-color: #7c3aed;
+    cursor: pointer;
+}
+
+/* Submit Button */
+.btn-submit {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+}
+
+.btn-submit:hover {
+    background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+}
+
+.btn-submit:active {
+    transform: scale(0.98);
+}
+
+/* Django Messages */
+.messages {
+    margin-bottom: 5px;
+}
+
+.message {
+    padding: 12px 15px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.message.error {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+.message.success {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.message.info {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+    body {
+        padding: 25px 14px;
+    }
+
+    .page-header h1 {
+        font-size: 1.6rem;
+        overflow-wrap: anywhere;
+    }
+
+    .card {
+        padding: 22px 18px;
+        border-radius: 16px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+    }
+}</style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Page Title -->
+        <header class="page-header">
+            <h1>Apply for {{ job.title }}</h1>
+        </header>
+
+        <!-- Job Details Card -->
+        <section class="card">
+            <h2 class="card-title">Job Details</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Company</span>
+                    <span class="info-value">{{ job.company }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Location</span>
+                    <span class="info-value">{{ job.location }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Job Type</span>
+                    <span class="info-value">{{ job.jobtype }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Experience</span>
+                    <span class="info-value">{{ job.experience }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Education</span>
+                    <span class="info-value">{{ job.education }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Salary</span>
+                    <span class="info-value">{{ job.salary }}</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Card -->
+        <section class="card">
+            <h2 class="card-title">Your Profile</h2>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Name</span>
+                    <span class="info-value">{{ profile.user.first_name }} {{ profile.user.last_name }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Email</span>
+                    <span class="info-value">{{ profile.user.email }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Phone</span>
+                    <span class="info-value">{{ profile.phone }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Location</span>
+                    <span class="info-value">{{ profile.location }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Education</span>
+                    <span class="info-value">{{ profile.education }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Experience</span>
+                    <span class="info-value">{{ profile.experience }} years</span>
+                </div>
+            </div>
+
+            <!-- Skills -->
+            <h3 class="section-divider">Skills</h3>
+            <div class="skills-wrapper">
+                {% for skill in profile.skills.all %}
+                    <span class="skill-tag">{{ skill.name }}</span>
+                {% empty %}
+                    <p class="empty-text">No skills added.</p>
+                {% endfor %}
+            </div>
+
+            <!-- Resume -->
+            <h3 class="section-divider">Resume</h3>
+            {% if profile.resume %}
+                <a href="{{ profile.resume.url }}" target="_blank" class="btn-link">
+                    📄 View Resume
+                </a>
+            {% else %}
+                <p class="empty-text">No resume uploaded.</p>
+            {% endif %}
+        </section>
+
+        <!-- Application Form -->
+        <section class="card">
+            <form method="POST" class="application-form">
+                {% csrf_token %}
+                {% if messages %}
+    <div>
+      {% for message in messages %}
+      <div
+        class="mb-4 px-4 py-3 rounded text-sm {% if message.tags == 'error' %}bg-red-100 text-red-700 border border-red-300 {% elif message.tags == 'success' %}bg-green-100 text-green-700 border border-green-300 {% else %}bg-blue-100 text-blue-700 border border-blue-300 {% endif %}"
+      >
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+                <label class="checkbox-label">
+                    <input type="checkbox" required>
+                    <span>I confirm that my profile information is correct.</span>
+                </label>
+
+                <button type="submit" class="btn-submit">
+                    Submit Application
+                </button>
+            </form>
+        </section>
+    </div>
+
+</body>
+</html>

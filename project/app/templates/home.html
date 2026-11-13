@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillMatch - Smart Job & Skill Gap Portal</title>
+    <
+    <style>/* --- Google Fonts & Core Setup --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #4F46E5;
+    --primary-hover: #4338CA;
+    --secondary-color: #0EA5E9;
+    --dark-bg: #0F172A;
+    --light-bg: #F8FAFC;
+    --white: #FFFFFF;
+    --text-dark: #1E293B;
+    --text-muted: #64748B;
+    --border-color: #E2E8F0;
+    --success: #10B981;
+    --danger: #EF4444;
+    --warning: #F59E0B;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* --- Header & Navigation --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 8%;
+    background-color: var(--white);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.logo i { color: var(--primary-color); }
+.logo span { color: var(--primary-color); }
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+/* --- Buttons --- */
+.btn {
+    padding: 0.6rem 1.4rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-outline {
+    border: 1.5px solid var(--primary-color);
+    color: var(--primary-color);
+    background: transparent;
+}
+
+.btn-outline:hover {
+    background-color: #EEF2FF;
+}
+
+/* --- Hero Section --- */
+.hero {
+    padding: 5rem 8% 4rem;
+    text-align: center;
+    background: linear-gradient(135deg, #EEF2FF 0%, #E0F2FE 100%);
+}
+
+.hero-content {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.hero h1 span {
+    color: var(--primary-color);
+}
+
+.hero p {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+}
+
+/* --- Search Bar --- */
+.search-box {
+    display: flex;
+    background: var(--white);
+    padding: 0.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.input-group {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-right: 1px solid var(--border-color);
+    min-width: 200px;
+}
+
+.input-group:last-of-type {
+    border-right: none;
+}
+
+.input-group i {
+    color: var(--text-muted);
+    margin-right: 0.75rem;
+}
+
+.input-group input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 0.95rem;
+}
+
+/* --- Interactive Demo Section --- */
+.gap-demo-section {
+    padding: 5rem 8%;
+    background-color: var(--white);
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-title h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.section-title p {
+    color: var(--text-muted);
+}
+
+.demo-card {
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    background: var(--white);
+}
+
+.demo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.company-name {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.match-badge {
+    text-align: right;
+}
+
+.match-percentage {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+
+.match-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.skills-breakdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.skill-column h4 {
+    font-size: 0.95rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.icon-success { color: var(--success); }
+.icon-danger { color: var(--danger); }
+.icon-warning { color: var(--warning); }
+
+.tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.tag {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.tag-success { background: #D1FAE5; color: #065F46; }
+.tag-danger { background: #FEE2E2; color: #991B1B; }
+
+.recommendation-box {
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    padding: 1.2rem;
+    border-radius: 10px;
+}
+
+.recommendation-box h4 {
+    color: #92400E;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.learning-path {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #78350F;
+    flex-wrap: wrap;
+}
+
+.path-step {
+    background: var(--white);
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid #FCD34D;
+}
+
+/* --- Features Section --- */
+.features-section {
+    padding: 5rem 8%;
+    background-color: var(--light-bg);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.highlighted-card {
+    border: 2px solid var(--primary-color);
+    position: relative;
+}
+
+.card-icon {
+    width: 50px;
+    height: 50px;
+    background: #EEF2FF;
+    color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+}
+
+.feature-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.feature-card ul {
+    list-style: none;
+    margin-bottom: 2rem;
+    flex-grow: 1;
+}
+
+.feature-card li {
+    margin-bottom: 0.8rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.feature-card li i {
+    color: var(--success);
+}
+
+.card-btn {
+    text-align: center;
+    width: 100%;
+}
+
+/* --- Footer --- */
+.footer {
+    background-color: var(--dark-bg);
+    color: var(--white);
+    padding: 4rem 8% 2rem;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.footer-logo span { color: var(--secondary-color); }
+
+.footer-logo p {
+    color: #94A3B8;
+    font-size: 0.9rem;
+    margin-top: 0.8rem;
+    max-width: 300px;
+}
+
+.footer-links h4 {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.footer-links a {
+    display: block;
+    color: #94A3B8;
+    text-decoration: none;
+    margin-bottom: 0.6rem;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--white);
+}
+
+.footer-bottom {
+    text-align: center;
+    border-top: 1px solid #334155;
+    padding-top: 1.5rem;
+    color: #94A3B8;
+    font-size: 0.85rem;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    .navbar { flex-direction: column; gap: 1rem; }
+    .hero h1 { font-size: 2.2rem; }
+    .skills-breakdown { grid-template-columns: 1fr; }
+    .footer-container { grid-template-columns: 1fr; }
+}</style>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-graduation-cap"></i> Skill<span>Match</span>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#gap-demo">Skill Gap Analyzer</a></li>
+                <li><a href="#recruiter">For Recruiters</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="{% url 'register_recruiter' %}" class="btn btn-primary">Recruiter Register</a>
+            <a href="{% url 'register' %}" class="btn btn-primary"> Candidate Register</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Bridge Your Skill Gap. <br><span>Land Your Dream Job.</span></h1>
+            <p>An AI-driven portal that matches your current skills with industry demands, reveals what skills you're missing, and guides your career roadmap.</p>
+            
+            
+        </div>
+    </section>
+
+    <!-- Skill Gap Interactive Demo Section -->
+    <section class="gap-demo-section" id="gap-demo">
+        <div class="section-title">
+            <h2>Smart Skill Gap Analysis Preview</h2>
+            <p>See how our system automatically evaluates candidate profiles against job requirements.</p>
+        </div>
+
+        <div class="demo-card">
+            <div class="demo-header">
+                <div>
+                    <h3>Python Django Developer</h3>
+                    <span class="company-name">Tech Corp Inc.</span>
+                </div>
+                <div class="match-badge">
+                    <span class="match-percentage">75%</span>
+                    <span class="match-label">Match Score</span>
+                </div>
+            </div>
+
+            <div class="skills-breakdown">
+                <div class="skill-column">
+                    <h4><i class="fa-solid fa-circle-check icon-success"></i> Skills You Have</h4>
+                    <div class="tags">
+                        <span class="tag tag-success">Python</span>
+                        <span class="tag tag-success">Django</span>
+                        <span class="tag tag-success">SQL</span>
+                    </div>
+                </div>
+
+                <div class="skill-column">
+                    <h4><i class="fa-solid fa-circle-xmark icon-danger"></i> Skill Gap (Missing)</h4>
+                    <div class="tags">
+                        <span class="tag tag-danger">Docker</span>
+                        <span class="tag tag-danger">AWS</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recommendation-box">
+                <h4><i class="fa-solid fa-lightbulb icon-warning"></i> Recommended Learning Path</h4>
+                <div class="learning-path">
+                    <span class="path-step">Learn Docker</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <span class="path-step">Learn AWS</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <span class="path-complete">Reach 100% Match!</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section class="features-section" id="features">
+        <div class="section-title">
+            <h2>Designed for Candidates & Recruiters</h2>
+            <p>Streamlining job hunting and hiring through automated match metrics.</p>
+        </div>
+
+        <div class="features-grid">
+            <!-- Candidate Feature Card -->
+            <div class="feature-card">
+                <div class="card-icon"><i class="fa-solid fa-user-graduate"></i></div>
+                <h3>For Candidates</h3>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> Personalized Job Match Scores</li>
+                    <li><i class="fa-solid fa-check"></i> Actionable Skill Gap Breakdown</li>
+                    <li><i class="fa-solid fa-check"></i> Resume & Skill Profile Management</li>
+                    <li><i class="fa-solid fa-check"></i> Real-time Application Tracking</li>
+                </ul>
+                <a href="{% url 'register' %}" class="btn btn-outline card-btn">Explore Candidate Portal</a>
+            </div>
+
+            <!-- Recruiter Feature Card -->
+            <div class="feature-card highlighted-card" id="recruiter">
+                <div class="card-icon"><i class="fa-solid fa-briefcase"></i></div>
+                <h3>For Recruiters & Admins</h3>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> Pre-ranked Applicants by Match %</li>
+                    <li><i class="fa-solid fa-check"></i> One-click Candidate Shortlisting</li>
+                    <li><i class="fa-solid fa-check"></i> Job Posting & Requirements Manager</li>
+                    <li><i class="fa-solid fa-check"></i> Dashboard Analytics & Statistics</li>
+                </ul>
+                <a href="{% url 'register_recruiter' %}" class="btn btn-primary card-btn">Access Recruiter Portal</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <i class="fa-solid fa-graduation-cap"></i> 🎓 Skill<span>Match</span>
+                <p>Connecting candidate talent with exact industry requirements.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <a href="#home">Home</a>
+                <a href="#features">Features</a>
+                <a href="#gap-demo">Skill Gap Analyzer</a>
+            </div>
+            <div class="footer-links">
+                <h4>Account</h4>
+                <a href="{% url 'login'%}">Candidate Login</a>
+                <a href="{% url 'login_recruiter'%}">Recruiter Login</a>
+                
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SkillMatch Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

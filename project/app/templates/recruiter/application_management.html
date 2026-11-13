@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Application Management | SkillMatch</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4f46e5;
+            --secondary: #7c3aed;
+            --text-dark: #1e1b4b;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --light-bg: #f8fafc;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            padding: 35px 20px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed, #db2777);
+            color: var(--text-main);
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 1250px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+
+        .header {
+            background: linear-gradient(135deg, #312e81, #4f46e5, #7c3aed);
+            color: white;
+            padding: 28px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+        }
+
+        .welcome-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            color: #ddd6fe;
+            font-size: 0.85rem;
+        }
+
+        .dashboard-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 18px;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 9px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: 0.25s;
+        }
+
+        .dashboard-btn:hover {
+            background: #ede9fe;
+            transform: translateY(-2px);
+        }
+
+        /* ALERT MESSAGES */
+
+        .alert-msg {
+            padding: 13px 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+            font-size: 0.85rem;
+        }
+
+        /* STATISTICS SECTION */
+
+        .stats-section {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .section-heading {
+            margin-bottom: 22px;
+        }
+
+        .section-heading h2 {
+            color: var(--text-dark);
+            font-size: 1.25rem;
+            margin-bottom: 5px;
+        }
+
+        .section-heading p {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 20px 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-decoration: none;
+            background: white;
+            transition: 0.25s;
+            min-width: 0;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.12);
+            border-color: #c4b5fd;
+        }
+
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 1.35rem;
+        }
+
+        .stat-info {
+            min-width: 0;
+        }
+
+        .stat-info p {
+            color: var(--text-muted);
+            font-size: 0.73rem;
+            line-height: 1.5;
+        }
+
+        .stat-info h3 {
+            color: var(--text-dark);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .total .stat-icon {
+            background: #e0f2fe;
+        }
+
+        .shortlisted .stat-icon {
+            background: #fef9c3;
+        }
+
+        .selected .stat-icon {
+            background: #dcfce7;
+        }
+
+        .rejected .stat-icon {
+            background: #fee2e2;
+        }
+
+        /* APPLICATION FILTERS */
+
+        .filter-nav {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+        }
+
+        .filter-nav a {
+            text-decoration: none;
+            color: #475569;
+            background: #f8fafc;
+            padding: 9px 15px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .filter-nav a:hover,
+        .filter-nav a.active {
+            background: #ede9fe;
+            color: var(--primary);
+        }
+
+        /* TABLE */
+
+        .table-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 30px;
+        }
+
+        .table-title {
+            padding: 22px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table-title h2 {
+            color: var(--text-dark);
+            font-size: 1.15rem;
+            margin-bottom: 4px;
+        }
+
+        .table-title p {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 950px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background: #f8fafc;
+            padding: 15px 18px;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 15px 18px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.82rem;
+            vertical-align: middle;
+        }
+
+        tbody tr {
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: #faf9ff;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+table thead th {
+    color: #4f46e5;
+    background: #eef2ff;
+    font-weight: 700;
+}
+        .candidate-info strong {
+            display: block;
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .candidate-info small {
+            color: var(--text-muted);
+            font-size: 0.72rem;
+        }
+
+        /* STATUS BADGES */
+
+        .badge {
+            display: inline-block;
+            padding: 5px 11px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-Applied {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .badge-Shortlisted {
+            background: #fef9c3;
+            color: #854d0e;
+        }
+
+        /* Highlight Selected Status */
+.badge-Selected {
+    display: inline-block;
+    background: #bbf7d0;
+    color: #166534;
+    border: 1px solid #4ade80;
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(22, 163, 74, 0.12);
+}
+
+        .badge-Rejected {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* STATUS FORM */
+
+        .status-form {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .status-form select {
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.73rem;
+            outline: none;
+        }
+
+        .status-form select:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-update {
+            padding: 8px 13px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-family: inherit;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-update:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(79, 70, 229, 0.25);
+        }
+
+        /* RESUME */
+
+        .resume-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .resume-link:hover {
+            text-decoration: underline;
+        }
+
+        .no-resume {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        .empty-state {
+            padding: 45px 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        /* FOOTER */
+
+        .footer {
+            width: 100%;
+            max-width: 1250px;
+            margin: 30px auto 0;
+            background: #0f172a;
+            color: white;
+            padding: 45px 7% 25px;
+            border-radius: 16px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 35px;
+            margin-bottom: 35px;
+        }
+
+        .footer-logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .footer-logo span {
+            color: #0ea5e9;
+        }
+
+        .footer-logo p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 400;
+            line-height: 1.8;
+            margin-top: 12px;
+            max-width: 300px;
+        }
+
+        .footer-links h4 {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            display: block;
+            color: #94a3b8;
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #334155;
+            padding-top: 20px;
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1000px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .header {
+                padding: 22px 18px;
+            }
+
+            .welcome-content {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .header h1 {
+                font-size: 1.3rem;
+            }
+
+            .dashboard-btn {
+                width: 100%;
+            }
+
+            .stats-section {
+                padding: 20px 15px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-nav a {
+                flex: 1 1 40%;
+                text-align: center;
+            }
+
+            .table-title {
+                padding: 20px 16px;
+            }
+
+            .footer {
+                padding: 35px 22px 22px;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="welcome-content">
+            <div>
+                <h1>Application Management</h1>
+                <p>Review candidate profiles and update their hiring status.</p>
+            </div>
+
+            <a href="{% url 'recruiter_dashboard' %}" class="dashboard-btn">
+                ← Dashboard
+            </a>
+        </div>
+    </header>
+
+    <!-- DJANGO MESSAGES -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert-msg">
+                ✅ {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- PORTAL REPORTS & STATISTICS -->
+<section class="stats-section">
+
+    <div class="section-heading">
+        <div>
+            
+            <h2>RECRUITMENT OVERVIEW</h2>
+            <p>Track your recruitment progress at a glance.</p>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+
+        <a href="?status=all"
+           class="stat-card total
+           {% if current_filter == 'all' %}active{% endif %}">
+
+            <div class="stat-top">
+                <span class="stat-label">Total Applications</span>
+                <span class="stat-icon">📋</span>
+            </div>
+
+            <h3>{{ counts.all }}</h3><br/><br>
+            <p class="stat-footer">View all applications <span>↗</span></p>
+
+        </a>
+
+        <a href="?status=shortlisted"
+           class="stat-card shortlisted
+           {% if current_filter == 'shortlisted' %}active{% endif %}">
+
+            <div class="stat-top">
+                <span class="stat-label">Shortlisted</span>
+                <span class="stat-icon">⭐</span>
+            </div>
+
+            <h3>{{ counts.shortlisted }}</h3>
+            <p class="stat-footer">View shortlisted <span>↗</span></p>
+
+        </a>
+
+        <a href="?status=selected"
+           class="stat-card selected
+           {% if current_filter == 'selected' %}active{% endif %}">
+
+            <div class="stat-top">
+                <span class="stat-label">Selected</span>
+                <span class="stat-icon">✓</span>
+            </div>
+
+            <h3>{{ counts.selected }}</h3>
+            <p class="stat-footer">View selected <span>↗</span></p>
+
+        </a>
+
+        <a href="?status=rejected"
+           class="stat-card rejected
+           {% if current_filter == 'rejected' %}active{% endif %}">
+
+            <div class="stat-top">
+                <span class="stat-label">Rejected</span>
+                <span class="stat-icon">✕</span>
+            </div>
+
+            <h3>{{ counts.rejected }}</h3>
+            <p class="stat-footer">View rejected <span>↗</span></p>
+
+        </a>
+
+    </div>
+</section>
+
+
+    
+
+    <!-- APPLICATION TABLE -->
+    <section class="table-card">
+
+        <div class="table-title">
+            <h2>CANDIDATE APPLICATIONS</h2>
+            <p>Review candidate details, resumes and hiring status.</p>
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Candidate Name</th>
+                        <th>Job Title</th>
+                        <th>Applied Date</th>
+                        <th>Match Percentage</th>
+                        <th>Resume</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for app in applications %}
+                    <tr>
+
+                        <td class="candidate-info">
+                            <strong>
+                                {{ app.candidate.user.first_name }}
+                                {{ app.candidate.user.last_name }}
+                            </strong>
+                            <small>
+                                {{ app.candidate.user.email }}
+                            </small>
+                        </td>
+
+                        <td>
+                            <strong>{{ app.job.title }}</strong>
+                        </td>
+
+                        <td>
+                            {{ app.applied_at|date:"M d, Y" }}
+                        </td>
+
+                        <td>
+                            <strong style="color:#4f46e5;">
+                                {{ app.match_percentage }}%
+                            </strong>
+                        </td>
+
+                        <td>
+                            {% if app.candidate.resume %}
+                                <a href="{{ app.candidate.resume.url }}"
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   class="resume-link">
+                                    📄 View Resume
+                                </a>
+                            {% else %}
+                                <span class="no-resume">No Resume</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <span class="badge badge-{{ app.status|default:'Applied' }}">
+                                {{ app.status|default:"Applied" }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <form method="POST"
+                                  action="{% url 'application_management' %}"
+                                  class="status-form">
+
+                                {% csrf_token %}
+
+                                <input type="hidden"
+                                       name="application_id"
+                                       value="{{ app.id }}">
+
+                                <select name="status" aria-label="Update application status">
+
+                                    <option value="Applied"
+                                        {% if app.status == 'Applied' %}selected{% endif %}>
+                                        Applied
+                                    </option>
+
+                                    <option value="Shortlisted"
+                                        {% if app.status == 'Shortlisted' %}selected{% endif %}>
+                                        Shortlisted
+                                    </option>
+
+                                    <option value="Selected"
+                                        {% if app.status == 'Selected' %}selected{% endif %}>
+                                        Selected
+                                    </option>
+
+                                    <option value="Rejected"
+                                        {% if app.status == 'Rejected' %}selected{% endif %}>
+                                        Rejected
+                                    </option>
+
+                                </select>
+
+                                <button type="submit" class="btn-update">
+                                    Save
+                                </button>
+
+                            </form>
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="empty-state">
+                            <div style="font-size:2rem;margin-bottom:8px;">📭</div>
+                            No applications found for this filter.
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+
+        </div>
+    </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-logo">
+            🎓 Skill<span>Match</span>
+            <p>
+                Connecting candidate talent with exact industry requirements.
+            </p>
+        </div>
+
+        <div class="footer-links">
+            <h4>Quick Links</h4>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'job_post' %}">Job Post</a>
+        </div>
+
+        <div class="footer-links">
+            <h4>Account</h4>
+            <a href="{% url 'register_recruiter' %}">Register</a>
+            <a href="{% url 'login_recruiter' %}">Login</a>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 SkillMatch Portal. All rights reserved.</p>
+    </div>
+
+</footer>
+
+</body>
+</html>

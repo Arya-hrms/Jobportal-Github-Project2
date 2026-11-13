@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login to Your Account</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --focus-ring: rgba(37, 99, 235, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      width: 100%;
+      max-width: 400px;
+      padding: 32px;
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .login-header h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .login-header p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .input-wrapper input:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px var(--focus-ring);
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      font-size: 13px;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .forgot-password {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .forgot-password:hover {
+      text-decoration: underline;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 24px 0;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .divider span {
+      padding: 0 10px;
+    }
+
+    .register-link {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .register-link a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-card">
+  <div class="login-header">
+    <h2>Welcome Back</h2>
+    <p>Please enter your details to sign in</p>
+  </div>
+
+  <form method="POST" >
+    {% csrf_token %}
+      {% if messages %}
+    <div>
+      {% for message in messages %}
+      <div
+        class="mb-4 px-4 py-3 rounded text-sm {% if message.tags == 'error' %}bg-red-100 text-red-700 border border-red-300 {% elif message.tags == 'success' %}bg-green-100 text-green-700 border border-green-300 {% else %}bg-blue-100 text-blue-700 border border-blue-300 {% endif %}"
+      >
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <!-- Username Field -->
+    <div class="form-group">
+      <label for="username">Username or Email</label>
+      <div class="input-wrapper">
+        <input type="text" id="username" name="email" required placeholder="Enter username or email" autocomplete="username">
+      </div>
+    </div>
+
+    <!-- Password Field -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div class="input-wrapper">
+        <input type="password" id="password" name="password" required placeholder="Enter your password" autocomplete="current-password">
+        <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">Show</button>
+      </div>
+    </div>
+
+    <!-- Options: Remember Me & Forgot Password -->
+    <div class="form-options">
+      <label class="remember-me">
+        <input type="checkbox" name="rememberMe"> Remember me
+      </label>
+      <a href="/forgot-password" class="forgot-password">Forgot password?</a>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn-submit">Sign In</button>
+
+   
+
+    <div class="register-link">
+      Don't have an account? <a href="{% url 'register' %}">Create an account</a>
+    </div>
+
+  </form>
+</div>
+
+
+
+</body>
+</html>

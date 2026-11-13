@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Recruiter Dashboard - Job Portal</title>
+
+    <!-- Poppins Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #7c3aed;
+            --accent: #db2777;
+
+            --text-dark: #1e1b4b;
+            --text-main: #334155;
+            --text-muted: #64748b;
+
+            --border: #e2e8f0;
+            --light-bg: #f8fafc;
+            --white: #ffffff;
+
+            --success-bg: #dcfce7;
+            --success-text: #15803d;
+
+            --warning-bg: #fef3c7;
+            --warning-text: #b45309;
+
+            --info-bg: #ede9fe;
+            --info-text: #6d28d9;
+
+            --danger-bg: #fee2e2;
+            --danger-text: #b91c1c;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+
+            min-height: 100vh;
+
+            padding: 40px 20px;
+
+            background: linear-gradient(
+                135deg,
+                #4f46e5 0%,
+                #7c3aed 50%,
+                #db2777 100%
+            );
+
+            color: var(--text-main);
+        }
+
+        /* ==============================
+           MAIN CONTAINER
+        ============================== */
+
+        .dashboard-container {
+            width: 100%;
+            max-width: 1200px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns: 260px 1fr;
+
+            gap: 20px;
+        }
+
+        /* ==============================
+           COMMON CARD
+        ============================== */
+
+        .card {
+            background: var(--white);
+
+            border-radius: 16px;
+
+            padding: 22px;
+
+            border: 1px solid rgba(255, 255, 255, 0.5);
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.15);
+
+            margin-bottom: 20px;
+        }
+
+        /* ==============================
+           DJANGO MESSAGES
+        ============================== */
+
+        .messages {
+            grid-column: 1 / -1;
+        }
+
+        .message {
+            padding: 13px 16px;
+
+            border-radius: 10px;
+
+            font-size: 0.9rem;
+
+            font-weight: 500;
+
+            margin-bottom: 12px;
+        }
+
+        .message.success {
+            background: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid #bbf7d0;
+        }
+
+        .message.error {
+            background: var(--danger-bg);
+            color: var(--danger-text);
+            border: 1px solid #fecaca;
+        }
+
+        .message.info {
+            background: var(--info-bg);
+            color: var(--info-text);
+            border: 1px solid #ddd6fe;
+        }
+
+        /* ==============================
+           WELCOME HEADER
+        ============================== */
+
+        .welcome-header {
+            grid-column: 1 / -1;
+
+            position: relative;
+            overflow: hidden;
+
+            background: linear-gradient(
+                135deg,
+                #312e81,
+                #4f46e5,
+                #7c3aed
+            );
+
+            color: white;
+
+            border-radius: 16px;
+
+            padding: 28px 30px;
+
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.20);
+        }
+
+        .welcome-header::after {
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            right: -50px;
+            top: -70px;
+        }
+
+        .welcome-header h1 {
+            font-size: 1.6rem;
+
+            font-weight: 700;
+
+            margin-bottom: 5px;
+        }
+
+        .welcome-header p {
+            color: #ddd6fe;
+
+            font-size: 0.9rem;
+        }
+
+        /* ==============================
+           SIDEBAR
+        ============================== */
+
+        .sidebar {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 0;
+        }
+
+        .nav-menu {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 9px;
+        }
+
+        .nav-btn {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 12px 14px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            color: var(--text-main);
+
+            font-weight: 500;
+
+            font-size: 0.88rem;
+
+            background: #ffffff;
+
+            border: 1px solid var(--border);
+
+            transition: all 0.25s ease;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: #ede9fe;
+
+            border-color: #c4b5fd;
+
+            color: var(--primary);
+
+            transform: translateX(3px);
+        }
+
+        /* ==============================
+           PRIMARY BUTTON
+        ============================== */
+
+        .nav-btn-primary {
+            justify-content: center;
+
+            color: white;
+
+            border: none;
+
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                var(--secondary)
+            );
+
+            box-shadow:
+                0 5px 15px rgba(79, 70, 229, 0.25);
+        }
+
+        .nav-btn-primary:hover {
+            color: white;
+
+            border: none;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px rgba(79, 70, 229, 0.35);
+        }
+
+        /* ==============================
+           LOGOUT
+        ============================== */
+
+        .nav-btn-danger {
+            color: var(--danger-text);
+
+            border-color: #fecaca;
+
+            background: #fffafa;
+        }
+
+        .nav-btn-danger:hover {
+            background: #fef2f2;
+
+            border-color: #fca5a5;
+
+            color: #b91c1c;
+        }
+
+        /* ==============================
+           SECTION TITLE
+        ============================== */
+
+        .section-title {
+            color: var(--text-dark);
+
+            font-size: 1.05rem;
+
+            font-weight: 700;
+
+            margin-bottom: 16px;
+
+            padding-bottom: 10px;
+
+            border-bottom: 1px solid var(--border);
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+        /* ==============================
+           PROFILE
+        ============================== */
+
+        .profile-header-inline {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 22px;
+
+            padding-bottom: 18px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .avatar-circle {
+            width: 58px;
+            height: 58px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                var(--secondary)
+            );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 1.1rem;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 6px 15px rgba(79, 70, 229, 0.30);
+        }
+
+        .profile-title h2 {
+            color: var(--text-dark);
+
+            font-size: 1.15rem;
+
+            font-weight: 700;
+
+            margin-bottom: 3px;
+        }
+
+        .profile-title p {
+            color: var(--text-muted);
+
+            font-size: 0.8rem;
+
+            line-height: 1.6;
+        }
+
+        /* ==============================
+           STATISTICS
+        ============================== */
+
+        .stats-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(130px, 1fr));
+
+            gap: 14px;
+        }
+
+        .stat-card {
+            position: relative;
+
+            overflow: hidden;
+
+            background: #f8fafc;
+
+            border: 1px solid var(--border);
+
+            border-radius: 12px;
+
+            padding: 17px;
+
+            text-align: center;
+
+            transition: all 0.25s ease;
+        }
+
+        .stat-card::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+
+            width: 100%;
+            height: 3px;
+
+            background: linear-gradient(
+                90deg,
+                var(--primary),
+                var(--secondary),
+                var(--accent)
+            );
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.08);
+
+            border-color: #c4b5fd;
+        }
+
+        .stat-number {
+            color: var(--primary);
+
+            font-size: 1.6rem;
+
+            font-weight: 700;
+
+            margin-bottom: 3px;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+
+            font-size: 0.7rem;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.04em;
+
+            font-weight: 600;
+        }
+
+        /* ==============================
+           SEARCH
+        ============================== */
+
+        .search-box {
+            display: flex;
+
+            gap: 8px;
+
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+
+            padding: 11px 14px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 9px;
+
+            font-family: 'Poppins', sans-serif;
+
+            font-size: 0.88rem;
+
+            outline: none;
+
+            transition: 0.25s;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+
+            box-shadow:
+                0 0 0 3px rgba(79, 70, 229, 0.10);
+        }
+
+        /* ==============================
+           SKILLS
+        ============================== */
+
+        .skills-wrapper {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 7px;
+
+            margin-bottom: 20px;
+        }
+
+        .skill-chip {
+            background: #f3e8ff;
+
+            color: #6b21a8;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            font-size: 0.78rem;
+
+            font-weight: 600;
+
+            border: 1px solid #e9d5ff;
+        }
+
+        /* ==============================
+           TABLE
+        ============================== */
+
+        .table-responsive {
+            width: 100%;
+
+            overflow-x: auto;
+
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            text-align: left;
+
+            font-size: 0.85rem;
+        }
+
+        th,
+        td {
+            padding: 12px 14px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: #f8fafc;
+
+            color: var(--text-muted);
+
+            font-weight: 600;
+
+            font-size: 0.78rem;
+
+            text-transform: uppercase;
+        }
+
+        td {
+            color: var(--text-main);
+
+            font-weight: 500;
+        }
+
+        tr:hover td {
+            background: #faf9ff;
+        }
+
+        /* ==============================
+           BADGES
+        ============================== */
+
+        .badge {
+            display: inline-block;
+
+            padding: 5px 10px;
+
+            border-radius: 20px;
+
+            font-size: 0.72rem;
+
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: var(--success-bg);
+            color: var(--success-text);
+        }
+
+        .badge-warning {
+            background: var(--warning-bg);
+            color: var(--warning-text);
+        }
+
+        .badge-info {
+            background: var(--info-bg);
+            color: var(--info-text);
+        }
+
+        .badge-danger {
+            background: var(--danger-bg);
+            color: var(--danger-text);
+        }
+
+        /* ==============================
+           ACTION LINKS
+        ============================== */
+
+        .action-link {
+            color: var(--primary);
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            font-size: 0.82rem;
+
+            transition: 0.2s;
+        }
+
+        .action-link:hover {
+            color: var(--secondary);
+
+            text-decoration: underline;
+        }
+
+        /* ==============================
+           EMPTY STATE
+        ============================== */
+
+        .empty-state {
+            font-size: 0.85rem;
+
+            color: var(--text-muted);
+
+            font-style: italic;
+
+            text-align: center;
+
+            padding: 20px 0;
+        }
+
+        /* ==============================
+           MOBILE
+        ============================== */
+
+        @media (max-width: 900px) {
+
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: 2;
+            }
+
+            main {
+                order: 1;
+            }
+
+            .welcome-header {
+                order: 0;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 25px 12px;
+            }
+
+            .dashboard-container {
+                gap: 15px;
+            }
+
+            .welcome-header {
+                padding: 22px;
+            }
+
+            .welcome-header h1 {
+                font-size: 1.3rem;
+            }
+
+            .welcome-header p {
+                font-size: 0.78rem;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .profile-header-inline {
+                align-items: flex-start;
+            }
+
+            .profile-title p {
+                word-break: break-word;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-number {
+                font-size: 1.4rem;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+            }
+
+        }
+.footer {
+    width: 100%;
+    background-color: #0F172A;
+    color: #FFFFFF;
+    padding: 4rem 8% 2rem;
+    margin-top: 30px;
+    box-sizing: border-box;
+    max-width: 1200px; margin: 30px auto 0; border-radius: 16px;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+}
+
+.footer-logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.footer-logo i {
+    color: #4F46E5;
+}
+
+.footer-logo span {
+    color: #0EA5E9;
+}
+
+.footer-logo p {
+    color: #94A3B8;
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.7;
+    margin-top: 0.8rem;
+    max-width: 300px;
+}
+
+.footer-links h4 {
+    color: #FFFFFF;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.footer-links a {
+    display: block;
+    color: #94A3B8;
+    text-decoration: none;
+    margin-bottom: 0.6rem;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #FFFFFF;
+}
+
+.footer-bottom {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    border-top: 1px solid #334155;
+    padding-top: 1.5rem;
+    color: #94A3B8;
+    font-size: 0.85rem;
+}
+
+
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- Django Messages -->
+
+    {% if messages %}
+
+    <div class="messages">
+
+        {% for message in messages %}
+
+        <div class="message
+            {% if message.tags == 'error' %}
+                error
+            {% elif message.tags == 'success' %}
+                success
+            {% else %}
+                info
+            {% endif %}
+        ">
+
+            {{ message }}
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- Welcome Header -->
+
+    <header class="welcome-header">
+        <div class="welcome-content">
+
+        <div>
+
+            <h1>
+                Recruiter & Admin Control Center
+            </h1>
+
+            <p>
+                Manage job posts, candidate applications, skills, and portal analytics
+            </p>
+
+            
+
+        </div>
+        
+    </div>
+
+    </header>
+
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <!-- Quick Actions -->
+
+        <div class="card">
+
+            <h3 class="section-title">
+                Quick Actions
+            </h3>
+
+            <div class="nav-menu">
+
+                <a
+                    href="{% url 'job_post' %}"
+                    class="nav-btn nav-btn-primary"
+                >
+                    ➕ Post New Job
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Navigation -->
+
+        <div class="card">
+
+            <h3 class="section-title">
+                Navigation
+            </h3>
+
+            <div class="nav-menu">
+
+                <a
+                    href="#"
+                    class="nav-btn active"
+                >
+                    📊 Dashboard Overview
+                </a>
+
+                <a
+                    href="{% url 'job_management' %}"
+                    class="nav-btn"
+                >
+                    💼 Job Management
+                </a>
+
+                <a
+                    href="{% url 'application_management' %}"
+                    class="nav-btn"
+                >
+                    📋 Application Management
+                </a>
+
+                <a
+                    href="{% url 'candidate_management' %}"
+                    class="nav-btn"
+                >
+                    👥 Candidate Management
+                </a>
+
+                <a
+                    href="{% url 'logoutrecruiter'%}"
+                    class="nav-btn nav-btn-danger"
+                >
+                    🚪 Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- Main Dashboard -->
+
+    <main>
+
+        <!-- Recruiter Profile -->
+
+        <div class="card">
+
+            <div class="profile-header-inline">
+
+                <div class="avatar-circle">
+
+                    {{ request.user.username|slice:":2"|upper }}
+
+                </div>
+
+                <div class="profile-title">
+
+                    <h2>
+                        {{ request.user.username }}
+                    </h2>
+
+                    <p>
+                        {{ profilerecruiter.company }}
+                        |
+                        {{ profilerecruiter.location }}
+                        |
+                        {{ request.user.email }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Statistics -->
+
+            <h3 class="section-title">
+
+                <span>
+                    📊 Portal Reports & Statistics
+                </span>
+
+            </h3>
+
+
+            <div class="stats-grid">
+
+                <!-- Active Jobs -->
+
+                <div class="stat-card">
+
+                    <div class="stat-number">
+                        {{ total_jobs}}
+                    </div>
+
+                    <div class="stat-label">
+                        Active Jobs
+                    </div>
+
+                </div>
+
+
+                <!-- Applications -->
+
+                <div class="stat-card">
+
+                    <div class="stat-number">
+                        {{ total_applications }}
+                    </div>
+
+                    <div class="stat-label">
+                        Total Applications
+                    </div>
+
+                </div>
+
+
+                <!-- Pending -->
+
+                
+
+
+                <!-- Shortlisted -->
+
+                <div class="stat-card">
+
+                    <div class="stat-number">
+                        {{ shortlisted_count}}
+                    </div>
+
+                    <div class="stat-label">
+                        Shortlisted
+                    </div>
+
+                </div>
+                <div class="stat-card">
+
+                    <div class="stat-number">
+                        {{ selected_count }}
+                    </div>
+
+                    <div class="stat-label">
+                        Selected
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+<!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <i class="fa-solid fa-graduation-cap"></i>🎓 Skill<span>Match</span>
+                <p>Connecting candidate talent with exact industry requirements.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <a href="{% url 'home'%}">Home</a>
+                <a href="{% url 'job_post'%}">Job Post</a>
+                
+            </div>
+            <div class="footer-links">
+                <h4>Account</h4>
+                <a href="{% url 'register_recruiter'%}">Register</a>
+                <a href="{% url 'login_recruiter'%}">Login</a>
+                
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SkillMatch Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

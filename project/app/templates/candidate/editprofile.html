@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile & Resume - Candidate</title>
+  <style>
+    :root {
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --secondary-color: #7c3aed;
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #1e1b4b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --input-bg: #f8fafc;
+    --read-only-bg: #f8fafc;
+    --cancel-btn: #e2e8f0;
+    --cancel-btn-hover: #cbd5e1;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(
+        135deg,
+        #4f46e5 0%,
+        #7c3aed 50%,
+        #db2777 100%
+    );
+    color: #1e293b;
+    padding: 40px 20px;
+    min-height: 100vh;
+}
+
+/* Main Form Container */
+.form-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 35px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+/* Page Header */
+.form-header {
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.form-header p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    line-height: 1.6;
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+/* Labels */
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+/* Input Fields */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="number"],
+.form-group input[type="file"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    min-width: 0;
+    padding: 12px 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    background: var(--input-bg);
+    font-size: 0.95rem;
+    color: #1e293b;
+    transition: all 0.3s ease;
+}
+
+.form-group input[type="file"] {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(124, 58, 237, 0.15);
+}
+
+.form-group input::placeholder {
+    color: #94a3b8;
+}
+
+/* Help Text */
+.help-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 3px;
+    line-height: 1.6;
+}
+
+/* Resume Section */
+.resume-section {
+    margin-top: 4px;
+    padding: 20px;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+}
+
+.resume-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+    overflow-wrap: anywhere;
+}
+
+.resume-header span {
+    font-size: 0.9rem;
+    color: #334155;
+}
+
+.resume-header strong {
+    overflow-wrap: anywhere;
+}
+
+/* Resume Link */
+.btn-view {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.btn-view:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+.file-upload-input {
+    margin-top: 15px;
+}
+
+/* Django Messages */
+.messages {
+    margin-bottom: 22px;
+}
+
+.message {
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.message.error {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+.message.success {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.message.info {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+/* Buttons */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border-color);
+}
+
+.btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-save {
+    background: linear-gradient(
+        135deg,
+        #4f46e5 0%,
+        #7c3aed 100%
+    );
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+}
+
+.btn-save:hover {
+    background: linear-gradient(
+        135deg,
+        #4338ca 0%,
+        #6d28d9 100%
+    );
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+}
+
+.btn-save:active {
+    transform: scale(0.98);
+}
+
+.btn-cancel {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.btn-cancel:hover {
+    background: #cbd5e1;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+    body {
+        padding: 24px 14px;
+    }
+
+    .form-container {
+        padding: 22px 18px;
+        border-radius: 16px;
+    }
+
+    .form-header h1 {
+        font-size: 1.45rem;
+    }
+
+    .form-header p {
+        font-size: 0.88rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .form-group.full-width {
+        grid-column: auto;
+    }
+
+    .resume-section {
+        padding: 14px;
+    }
+
+    .resume-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+}
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    
+    <div class="form-header">
+      <div>
+        <h1>Profile & Resume Settings</h1>
+        <p>Your current details are filled below. Modify any field to update.</p>
+      </div>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" action="#">
+       {% csrf_token %}
+      {% if messages %}
+    <div>
+      {% for message in messages %}
+      <div
+        class="mb-4 px-4 py-3 rounded text-sm {% if message.tags == 'error' %}bg-red-100 text-red-700 border border-red-300 {% elif message.tags == 'success' %}bg-green-100 text-green-700 border border-green-300 {% else %}bg-blue-100 text-blue-700 border border-blue-300 {% endif %}"
+      >
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+      <div class="form-grid">
+        
+        <!-- First Name -->
+        <div class="form-group">
+          <label for="first_name">First Name</label>
+          <input type="text" id="first_name" name="first_name" value="{{ request.user.first_name }}" required>
+        </div>
+
+        <!-- Last Name -->
+        <div class="form-group">
+          <label for="last_name">Last Name</label>
+          <input type="text" id="last_name" name="last_name" value="{{ request.user.last_name }}" required>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group full-width">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" value="{{ request.user.email }}" required>
+        </div>
+
+        <!-- Phone -->
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="text" id="phone" name="phone" value="{{ profile.phone|default:'' }}" placeholder="+91 9876543210">
+        </div>
+
+        <!-- Location -->
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" id="location" name="location" value="{{ profile.location|default:'' }}" placeholder="City, Country">
+        </div>
+
+        <!-- Education -->
+        <div class="form-group">
+          <label for="education">Education / Qualification</label>
+          <input type="text" id="education" name="education" value="{{ profile.education|default:'' }}" placeholder="e.g. B.Tech in CS">
+        </div>
+
+        <!-- Experience -->
+        <div class="form-group">
+          <label for="experience">Experience (Years)</label>
+          <input type="number" id="experience" name="experience" value="{{ profile.experience|default:'' }}" min="0" step="0.5" placeholder="e.g. 2">
+        </div>
+
+        <!-- Skills -->
+        <div class="form-group full-width">
+          <label for="skills">Skills</label>
+          <input 
+    type="text" 
+    id="skills" 
+    name="skills"
+    value="{% for skill in profile.skills.all %}{{ skill.name }}{% if not forloop.last %}, {% endif %}{% endfor %}"
+    placeholder="e.g. HTML, CSS, Django, Python"
+>
+
+          <span class="help-text">Comma (,) ഉപയോഗിച്ച് കൂടുതൽ Skills നൽകാം.</span>
+        </div>
+
+        <!-- Current Resume & Replace Option -->
+        <div class="form-group full-width">
+          <label>Uploaded Resume</label>
+          <div class="resume-section">
+            
+            {% if profile.resume %}
+              <div class="resume-header">
+                <span>📄 Current Resume: <strong>{{ profile.resume.name }}</strong></span>
+                <a href="{{ profile.resume.url }}" target="_blank" class="btn-view">Open in New Tab ↗</a>
+              </div>
+
+              
+            {% else %}
+              <p class="help-text">No resume uploaded yet.</p>
+            {% endif %}
+
+            <div class="file-upload-input">
+              <label for="resume" style="font-size: 0.8rem; margin-top:0.5rem; display:block;">Change / Upload New Resume (PDF or DOC):</label>
+              <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx">
+              <span class="help-text">പുതിയ Resume തെരഞ്ഞെടുത്താൽ പഴയതിനു പകരം അത് Save ആകും.</span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Save & Cancel Buttons -->
+      <div class="form-actions">
+        <a href="{% url 'candidate_dashboard' %}" class="btn btn-cancel">Cancel</a>
+        <button type="submit" class="btn btn-save">Update Profile</button>
+      </div>
+
+    </form>
+
+  </div>
+
+</body>
+</html>

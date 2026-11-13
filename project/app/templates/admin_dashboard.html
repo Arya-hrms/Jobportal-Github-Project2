@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SkillMatch Admin Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+
+    <style>
+
+        :root {
+            --primary: #4F46E5;
+            --primary-hover: #4338CA;
+            --secondary: #7C3AED;
+
+            --dark-bg: #0F172A;
+            --light-bg: #F8FAFC;
+            --white: #FFFFFF;
+
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+
+            --sidebar-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--light-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--dark-bg);
+            color: white;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 25px 16px;
+            z-index: 1000;
+        }
+
+        .brand {
+            padding: 5px 12px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 25px;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                var(--secondary)
+            );
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .brand-name {
+            font-size: 19px;
+            font-weight: 800;
+        }
+
+        .brand-name span {
+            color: #818CF8;
+        }
+
+        .brand-subtitle {
+            color: #94A3B8;
+            font-size: 10px;
+            font-weight: 600;
+            margin-top: 3px;
+            letter-spacing: 1px;
+        }
+
+        .nav-title {
+            color: #64748B;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 12px;
+            margin-bottom: 10px;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-bottom: 5px;
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 14px;
+            color: #CBD5E1;
+            text-decoration: none;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-menu a i {
+            width: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255,255,255,0.07);
+            color: white;
+        }
+
+        .nav-menu li.active a {
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                var(--secondary)
+            );
+            color: white;
+            box-shadow: 0 5px 15px rgba(79,70,229,0.25);
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .logout {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 14px;
+            color: #FCA5A5;
+            text-decoration: none;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .logout:hover {
+            background: rgba(239,68,68,0.10);
+            color: #F87171;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            padding: 35px 45px;
+        }
+
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .welcome h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .welcome p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 8px 14px 8px 8px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                var(--primary),
+                var(--secondary)
+            );
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .admin-info strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .admin-info span {
+            display: block;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* STATS */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(15,23,42,0.07);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .stat-number {
+            color: var(--text-dark);
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .users-icon {
+            background: #EEF2FF;
+            color: var(--primary);
+        }
+
+        .recruiter-icon {
+            background: #EDE9FE;
+            color: var(--secondary);
+        }
+
+        .jobs-icon {
+            background: #E0F2FE;
+            color: #0284C7;
+        }
+
+        /* COMMON CARD */
+
+        .table-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .table-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .table-header p {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .view-all:hover {
+            color: var(--primary-hover);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th {
+            padding: 13px 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        td {
+            padding: 16px 10px;
+            border-bottom: 1px solid #F1F5F9;
+            font-size: 13px;
+        }
+
+        tbody tr:hover {
+            background: #F8FAFC;
+        }
+
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #EEF2FF;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .email {
+            color: var(--text-muted);
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #D1FAE5;
+            color: #047857;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .job-title {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .company {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1000px) {
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .main {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+            .brand-name,
+            .brand-subtitle,
+            .nav-title,
+            .nav-menu span,
+            .logout span {
+                display: none;
+            }
+
+            .brand {
+                padding: 5px 4px 25px;
+            }
+
+            .brand-logo {
+                justify-content: center;
+            }
+
+            .nav-menu a,
+            .logout {
+                justify-content: center;
+                padding: 13px 8px;
+            }
+
+            .main {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+                padding: 25px 15px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top-header {
+                align-items: flex-start;
+            }
+
+            .admin-profile {
+                display: none;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div>
+
+            <div class="brand">
+
+                <div class="brand-logo">
+
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="brand-name">
+                            Skill<span>Match</span>
+                        </div>
+
+                        <div class="brand-subtitle">
+                            ADMIN PANEL
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="nav-title">
+                Management
+            </div>
+
+
+            <ul class="nav-menu">
+
+                <li class="active">
+
+                    <a href="{% url 'admin_dashboard' %}">
+
+                        <i class="fa-solid fa-chart-line"></i>
+
+                        <span>
+                            Dashboard
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="{% url 'admin_manage_users' %}">
+
+                        <i class="fa-solid fa-users"></i>
+
+                        <span>
+                            Manage Users
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="{% url 'admin_manage_recruiters' %}">
+
+                        <i class="fa-solid fa-user-tie"></i>
+
+                        <span>
+                            Manage Recruiters
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="{% url 'admin_manage_jobs' %}">
+
+                        <i class="fa-solid fa-briefcase"></i>
+
+                        <span>
+                            Manage Jobs
+                        </span>
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="{% url 'adminlogin' %}" class="logout">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+
+        <header class="top-header">
+
+            <div class="welcome">
+
+                <h1>
+                    Admin Dashboard
+                </h1>
+
+                <p>
+                    Manage your SkillMatch job portal from one place.
+                </p>
+
+            </div>
+
+
+            <div class="admin-profile">
+
+                <div class="admin-avatar">
+
+                    <i class="fa-solid fa-user-shield"></i>
+
+                </div>
+
+                <div class="admin-info">
+
+                    <strong>
+                        {{ request.user.username }}
+                    </strong>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- STATISTICS -->
+
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div>
+
+                    <div class="stat-label">
+                        Total Candidates
+                    </div>
+
+                    <div class="stat-number">
+                        {{ user_count }}
+                    </div>
+
+                </div>
+
+                <div class="stat-icon users-icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div>
+
+                    <div class="stat-label">
+                        Recruiters
+                    </div>
+
+                    <div class="stat-number">
+                        {{ recruiter_count|default:"0" }}
+                    </div>
+
+                </div>
+
+                <div class="stat-icon recruiter-icon">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div>
+
+                    <div class="stat-label">
+                        Active Jobs
+                    </div>
+
+                    <div class="stat-number">
+                        {{ job_count|default:"0" }}
+                    </div>
+
+                </div>
+
+                <div class="stat-icon jobs-icon">
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             REGISTERED CANDIDATES
+        ========================== -->
+
+        <section class="table-card">
+
+            <div class="table-header">
+
+                <div>
+
+                    <h2>
+                        Registered Candidates
+                    </h2>
+
+                    <p>
+                        Recently registered candidates.
+                    </p>
+
+                </div>
+
+                <a
+                    href="{% url 'admin_manage_users' %}"
+                    class="view-all"
+                >
+                    Manage Users →
+                </a>
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Candidate
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Username
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+    {% for candidate in candidates|slice:":2" %}
+
+    <tr>
+
+        <td>
+
+            <div class="user-cell">
+
+                <div class="user-avatar">
+
+                    {% if candidate.user.first_name %}
+                        {{ candidate.user.first_name|first|upper }}
+                    {% else %}
+                        U
+                    {% endif %}
+
+                </div>
+
+                <div class="user-name">
+
+                    {{ candidate.user.first_name }}
+                    {{ candidate.user.last_name }}
+
+                </div>
+
+            </div>
+
+        </td>
+
+        <td class="email">
+
+            {{ candidate.user.email }}
+
+        </td>
+
+        <td>
+
+            {{ candidate.user.username }}
+
+        </td>
+
+        <td>
+
+            <span class="status">
+                Registered
+            </span>
+
+        </td>
+
+    </tr>
+
+    {% empty %}
+
+    <tr>
+
+        <td
+            colspan="4"
+            style="
+                text-align:center;
+                padding:35px;
+                color:#64748B;
+            "
+        >
+
+            No candidates registered yet.
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</tbody>
+
+
+            </table>
+
+        </section>
+
+
+        <!-- =========================
+             RECRUITERS
+        ========================== -->
+
+        <section class="table-card">
+
+            <div class="table-header">
+
+                <div>
+
+                    <h2>
+                        Registered Recruiters
+                    </h2>
+
+                    <p>
+                        Recently registered recruiters.
+                    </p>
+
+                </div>
+
+                <a
+                    href="{% url 'admin_manage_recruiters' %}"
+                    class="view-all"
+                >
+                    Manage Recruiters →
+                </a>
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Recruiter
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Company
+                        </th>
+
+                        <th>
+                            Location
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for recruiter in recruiters|slice:":2" %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="user-cell">
+
+                                <div class="user-avatar">
+
+                                    {% if recruiter.user.username %}
+                                        {{ recruiter.user.username|first|upper }}
+                                    {% else %}
+                                        R
+                                    {% endif %}
+
+                                </div>
+
+                                <div class="user-name">
+
+                                    {{ recruiter.user.username }}
+                                    
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td class="email">
+
+                            {{ recruiter.user.email }}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ recruiter.company|default:"Not specified" }}
+
+                        </td>
+
+
+                        <td>
+
+                            {{ recruiter.location|default:"Not specified" }}
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td
+                            colspan="4"
+                            style="
+                                text-align:center;
+                                padding:35px;
+                                color:#64748B;
+                            "
+                        >
+
+                            No recruiters registered yet.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- =========================
+             JOBS
+        ========================== -->
+
+        <section class="table-card">
+
+            <div class="table-header">
+
+                <div>
+
+                    <h2>
+                        Recent Jobs
+                    </h2>
+
+                    <p>
+                        Recently posted jobs on SkillMatch.
+                    </p>
+
+                </div>
+
+                <a
+                    href="{% url 'admin_manage_jobs' %}"
+                    class="view-all"
+                >
+                    Manage Jobs →
+                </a>
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Job Title
+                        </th>
+
+                        <th>
+                            Recruiter
+                        </th>
+
+                        <th>
+                            Location
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for job in jobs|slice:":2" %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="job-title">
+
+                                {{ job.title }}
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            {% if job.recruiter.user %}
+
+                                {{ job.recruiter.user.username }}
+
+                            {% else %}
+
+                                {{ job.recruiter }}
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td class="company">
+
+                            {{ job.location|default:"Not specified" }}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="status">
+
+                                Active
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td
+                            colspan="4"
+                            style="
+                                text-align:center;
+                                padding:35px;
+                                color:#64748B;
+                            "
+                        >
+
+                            No jobs posted yet.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

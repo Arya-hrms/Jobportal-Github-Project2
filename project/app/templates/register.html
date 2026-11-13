@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Registration Form</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 15px;
+        }
+
+        /* Main Card */
+        .container {
+            width: 100%;
+            max-width: 680px;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.20);
+            overflow: hidden;
+        }
+
+        /* Form Area */
+        .form-wrapper {
+            padding: 35px 40px 40px;
+        }
+
+        /* Heading */
+        .form-wrapper h2 {
+            color: #333;
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            color: #777;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        /* Messages */
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .message.success {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        .message.info {
+            background: #dbeafe;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+        }
+
+        /* Form */
+        form {
+            width: 100%;
+        }
+
+        /* Two Column Row */
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        /* Input Group */
+        .input-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Full Width Input */
+        .full-width {
+            width: 100%;
+            margin-bottom: 18px;
+        }
+
+        /* Labels */
+        label {
+            color: #444;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        /* Inputs */
+        input,
+        select {
+            width: 100%;
+            height: 46px;
+            padding: 0 14px;
+            border: 1px solid #d8d8d8;
+            border-radius: 7px;
+            background: #f9fafb;
+            color: #333;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        /* Select */
+        select {
+            cursor: pointer;
+        }
+
+        /* Focus */
+        input:focus,
+        select:focus {
+            border-color: #667eea;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+        }
+
+        /* File Input */
+        input[type="file"] {
+            height: auto;
+            padding: 10px;
+            background: #ffffff;
+            cursor: pointer;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            height: 48px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 7px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 12px rgba(102, 126, 234, 0.25);
+        }
+
+        /* Footer */
+        .form-footer {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .form-footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 12px;
+                align-items: flex-start;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            .form-wrapper {
+                padding: 25px 20px 30px;
+            }
+
+            .form-wrapper h2 {
+                font-size: 24px;
+            }
+
+            .input-row {
+                grid-template-columns: 1fr;
+                gap: 18px;
+                margin-bottom: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="form-wrapper">
+
+            <h2>Create Your Account</h2>
+            <p class="subtitle">Join our professional network today</p>
+
+            <!-- Django Messages -->
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="message {% if message.tags == 'error' %}error{% elif message.tags == 'success' %}success{% else %}info{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Registration Form -->
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+      <!-- Django Messages -->
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="message {% if message.tags == 'error' %}error{% elif message.tags == 'success' %}success{% else %}info{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+                <!-- First Name / Last Name -->
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstname" placeholder="John"
+                            value="{{ request.POST.firstname|default:'' }}" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastname" placeholder="Doe"
+                            value="{{ request.POST.lastname|default:'' }}" required>
+                    </div>
+                </div>
+
+                <!-- Email / Phone -->
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="john.doe@example.com"
+                            value="{{ request.POST.email|default:'' }}" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000"
+                            value="{{ request.POST.phone|default:'' }}" required>
+                    </div>
+                </div>
+
+                <!-- Location / Education -->
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" placeholder="City, Country"
+                            value="{{ request.POST.location|default:'' }}" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="education">Highest Education</label>
+                        <select id="education" name="education" required>
+                            <option value="" disabled {% if not request.POST.education %}selected{% endif %}>
+                                Select your education
+                            </option>
+                            <option value="high-school" {% if request.POST.education == 'high-school' %}selected{% endif %}>
+                                High School
+                            </option>
+                            <option value="bachelors" {% if request.POST.education == 'bachelors' %}selected{% endif %}>
+                                Bachelor's Degree
+                            </option>
+                            <option value="masters" {% if request.POST.education == 'masters' %}selected{% endif %}>
+                                Master's Degree
+                            </option>
+                            <option value="phd" {% if request.POST.education == 'phd' %}selected{% endif %}>
+                                Ph.D. or Doctorate
+                            </option>
+                            <option value="other" {% if request.POST.education == 'other' %}selected{% endif %}>
+                                Other
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Experience / Skills -->
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="experience">Years of Experience</label>
+                        <input type="number" id="experience" name="experience" min="0" max="50" placeholder="e.g., 3"
+                            value="{{ request.POST.experience|default:'' }}" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="skills">Skills</label>
+                        <input type="text" id="skills" name="skills" placeholder="HTML, CSS, JavaScript, Python"
+                            value="{{ request.POST.skills|default:'' }}" required>
+                    </div>
+                </div>
+
+                <!-- Resume -->
+                <div class="input-group full-width">
+                    <label for="resume">Upload Resume (PDF, DOC, DOCX)</label>
+                    <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+                </div>
+
+                <!-- Password -->
+                <div class="input-group full-width">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Create a strong password" required>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="submit-btn">
+                    Register Now
+                </button>
+            </form>
+
+            <!-- Login -->
+            <div class="form-footer">
+                <p>
+                    Already have an account?
+                    <a href="{% url 'login' %}">Log in</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

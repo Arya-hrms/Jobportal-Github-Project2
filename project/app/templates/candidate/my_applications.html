@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Submitted Applications</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family:
+                'Segoe UI',
+                Tahoma,
+                Geneva,
+                Verdana,
+                sans-serif;
+
+            background: linear-gradient(
+                135deg,
+                #4f46e5 0%,
+                #7c3aed 50%,
+                #db2777 100%
+            );
+
+            min-height: 100vh;
+
+            padding: 40px 20px;
+
+            color: #334155;
+        }
+
+
+        .container {
+
+            width: 100%;
+
+            max-width: 1200px;
+
+            margin: auto;
+        }
+
+
+        /* Page Header */
+
+        .page-header {
+
+            margin-bottom: 25px;
+
+            text-align: center;
+        }
+
+
+        .page-title {
+
+            color: white;
+
+            font-size: 2.2rem;
+
+            font-weight: 700;
+
+            margin-bottom: 10px;
+        }
+
+
+        .page-subtitle {
+
+            color: #e0e7ff;
+
+            font-size: 1rem;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* Table Card */
+
+        .table-card {
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.20);
+
+            overflow-x: auto;
+        }
+
+
+        /* Table */
+
+        .applications-table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 950px;
+        }
+
+
+        /* Table Header */
+
+        .applications-table thead {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #7c3aed
+                );
+
+            color: white;
+        }
+
+
+        .applications-table th {
+
+            padding: 16px 14px;
+
+            text-align: left;
+
+            font-size: 0.82rem;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.3px;
+
+            white-space: nowrap;
+        }
+
+
+        /* Table Body */
+
+        .applications-table td {
+
+            padding: 17px 14px;
+
+            border-bottom: 1px solid #e2e8f0;
+
+            font-size: 0.9rem;
+
+            vertical-align: middle;
+        }
+
+
+        .applications-table tbody tr {
+
+            transition:
+                background 0.2s ease;
+        }
+
+
+        .applications-table tbody tr:hover {
+
+            background: #f8fafc;
+        }
+
+
+        /* Job Title */
+
+        .job-title {
+
+            color: #1e1b4b;
+
+            font-size: 1rem;
+
+            font-weight: 700;
+
+            margin-bottom: 4px;
+
+            white-space: nowrap;
+        }
+
+
+        /* Company */
+
+        .company {
+
+            color: #7c3aed;
+
+            font-size: 0.85rem;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+
+        /* Location */
+
+        .location {
+
+            color: #64748b;
+
+            white-space: nowrap;
+        }
+
+
+        /* Job Type */
+
+        .job-type {
+
+            background: #f1f5f9;
+
+            color: #475569;
+
+            padding: 5px 10px;
+
+            border-radius: 15px;
+
+            font-size: 0.78rem;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+
+        /* Applied Date */
+
+        .applied-date {
+
+            color: #64748b;
+
+            white-space: nowrap;
+        }
+
+
+        /* Match Percentage */
+
+        .match-percentage {
+
+            display: inline-block;
+
+            color: #047857;
+
+            font-weight: 700;
+
+            background: #d1fae5;
+
+            padding: 6px 11px;
+
+            border-radius: 20px;
+
+            white-space: nowrap;
+        }
+
+
+        /* Status */
+
+        .status-badge {
+
+            display: inline-block;
+
+            padding: 6px 13px;
+
+            border-radius: 30px;
+
+            font-size: 0.78rem;
+
+            font-weight: 700;
+
+            text-transform: capitalize;
+
+            white-space: nowrap;
+        }
+
+
+        .status-pending {
+
+            background-color: #fef3c7;
+
+            color: #b45309;
+
+            border: 1px solid #fde68a;
+        }
+
+
+        .status-shortlisted {
+
+            background-color: #dbeafe;
+
+            color: #1d4ed8;
+
+            border: 1px solid #bfdbfe;
+        }
+
+
+        .status-selected {
+
+            background-color: #d1fae5;
+
+            color: #047857;
+
+            border: 1px solid #a7f3d0;
+        }
+
+
+        .status-rejected {
+
+            background-color: #fee2e2;
+
+            color: #b91c1c;
+
+            border: 1px solid #fecaca;
+        }
+
+
+        /* View Button */
+
+        .view-btn {
+
+            display: inline-block;
+
+            color: #4f46e5;
+
+            background: #eef2ff;
+
+            padding: 7px 12px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 0.8rem;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+
+            transition: 0.2s;
+        }
+
+
+        .view-btn:hover {
+
+            background: #4f46e5;
+
+            color: white;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* Empty State */
+
+        .empty-card {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 55px 20px;
+
+            text-align: center;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+
+        .empty-card h3 {
+
+            font-size: 1.4rem;
+
+            color: #1e1b4b;
+
+            margin-bottom: 8px;
+        }
+
+
+        .empty-card p {
+
+            color: #64748b;
+
+            margin-bottom: 24px;
+
+            font-size: 1rem;
+        }
+
+
+        .browse-btn {
+
+            display: inline-block;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #7c3aed
+                );
+
+            color: #ffffff;
+
+            padding: 12px 24px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            font-size: 0.95rem;
+
+            transition: all 0.3s ease;
+        }
+
+
+        .browse-btn:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 5px 15px rgba(
+                    79,
+                    70,
+                    229,
+                    0.4
+                );
+        }
+
+/* Missing Skills */
+
+.missing-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    min-width: 140px;
+}
+
+.missing-skill {
+    display: inline-block;
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+    padding: 5px 9px;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.no-missing {
+    display: inline-block;
+    background: #d1fae5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+    padding: 5px 9px;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+        /* Mobile */
+
+        @media (max-width: 700px) {
+
+            body {
+
+                padding: 25px 10px;
+            }
+
+
+            .page-title {
+
+                font-size: 1.8rem;
+            }
+
+
+            .table-card {
+
+                padding: 10px;
+
+                border-radius: 12px;
+            }
+
+
+            .applications-table {
+
+                min-width: 950px;
+            }
+.footer {
+                padding: 35px 22px 22px;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+        }
+/* FOOTER */
+
+        .footer {
+            width: 100%;
+            max-width: 1200px;
+            margin: 30px auto 0;
+            background: #0f172a;
+            color: white;
+            padding: 45px 7% 25px;
+            border-radius: 16px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 35px;
+            margin-bottom: 35px;
+        }
+
+        .footer-logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .footer-logo span {
+            color: #0ea5e9;
+        }
+
+        .footer-logo p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 400;
+            line-height: 1.8;
+            margin-top: 12px;
+            max-width: 300px;
+        }
+
+        .footer-links h4 {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            display: block;
+            color: #94a3b8;
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #334155;
+            padding-top: 20px;
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+/* HEADER */
+
+        .header {
+            background: linear-gradient(135deg, #312e81, #4f46e5, #7c3aed);
+            color: white;
+            padding: 28px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+        }
+
+        .welcome-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            color: #ddd6fe;
+            font-size: 0.85rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 16px;
+            border-radius: 9px;
+            background: #ffffff;
+            color: #4f46e5;
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: 0.25s ease;
+        }
+
+        .back-btn:hover {
+            background: #ede9fe;
+            transform: translateY(-2px);
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- Page Header -->
+
+ 
+    <!-- HEADER -->
+    <header class="header">
+        <div class="welcome-content">
+            
+            <div>
+                <h1>My Applications</h1>
+                <p>Track and view the status of jobs you have applied for.</p>
+            </div>
+
+            <a href="{% url 'candidate_dashboard' %}" class="back-btn">
+                        <i class="fa-solid fa-arrow-left"></i>
+                       ← Dashboard
+                    </a>
+        </div>
+    </header>
+
+
+
+    <!-- Applications -->
+
+    {% if application_data %}
+
+
+    <div class="table-card">
+
+
+        <table class="applications-table">
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Job Title
+                    </th>
+
+                    <th>
+                        Company
+                    </th>
+
+                    <th>
+                        Location
+                    </th>
+
+                    <th>
+                        Job Type
+                    </th>
+
+                    <th>
+                        Applied Date
+                    </th>
+
+                    <th>
+                        Match %
+                    </th>
+<th>Missing Skills</th>
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Details
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+            {% for item in application_data %}
+    {% with application=item.application %}
+
+
+
+                <tr>
+
+
+                    <!-- Job Title -->
+
+                    <td>
+
+                        <div class="job-title">
+
+                            {{ application.job.title }}
+
+                        </div>
+
+                    </td>
+
+
+                    <!-- Company -->
+
+                    <td>
+
+                        <div class="company">
+
+                            🏢 {{ application.job.company }}
+
+                        </div>
+
+                    </td>
+
+
+                    <!-- Location -->
+
+                    <td>
+
+                        <span class="location">
+
+                            📍 {{ application.job.location }}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- Job Type -->
+
+                    <td>
+
+                        <span class="job-type">
+
+                            💼 {{ application.job.jobtype }}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- Applied Date -->
+
+                    <td>
+
+                        <span class="applied-date">
+
+                            📅
+                            {{ application.applied_at|date:"M d, Y" }}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- Match Percentage -->
+
+                    <td>
+
+                        <span class="match-percentage">
+
+                            🎯
+                            {{ application.match_percentage }}%
+
+                        </span>
+
+                    </td>
+<td>
+
+    <div class="missing-skills">
+
+        {% if item.missing_skills %}
+
+            {% for skill in item.missing_skills %}
+
+                <span class="missing-skill">
+                    {{ skill|title }}
+                </span>
+
+            {% endfor %}
+
+        {% else %}
+
+            <span class="no-missing">
+                ✓ All Skills Matched
+            </span>
+
+        {% endif %}
+
+    </div>
+
+</td>
+
+
+                    <!-- Status -->
+
+                    <td>
+
+
+                        <span class="status-badge
+
+                            {% if application.status == 'Selected' %}
+
+                                status-selected
+
+                            {% elif application.status == 'Rejected' %}
+
+                                status-rejected
+
+                            {% elif application.status == 'Shortlisted' %}
+
+                                status-shortlisted
+
+                            {% else %}
+
+                                status-pending
+
+                            {% endif %}
+
+                        ">
+
+
+                            {% if application.status == 'Selected' %}
+
+                                🟢 Selected
+
+                            {% elif application.status == 'Rejected' %}
+
+                                🔴 Rejected
+
+                            {% elif application.status == 'Shortlisted' %}
+
+                                🔵 Shortlisted
+
+                            {% else %}
+
+                                🟡 {{ application.status|default:"Applied" }}
+
+                            {% endif %}
+
+
+                        </span>
+
+
+                    </td>
+
+
+                    <!-- Details -->
+
+                    <td>
+
+                        <a
+                            href="{% url 'jobsearch' %}"
+                            class="view-btn"
+                        >
+
+                            View Details →
+
+                        </a>
+
+                    </td>
+
+
+                </tr>
+
+
+            {% endwith %}
+{% endfor %}
+
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+    {% else %}
+
+
+    <!-- Empty State -->
+
+    <div class="empty-card">
+
+        <h3>
+            No Applications Yet
+        </h3>
+
+        <p>
+            You haven't submitted any job applications yet.
+        </p>
+
+        <a
+            href="{% url 'jobsearch' %}"
+            class="browse-btn"
+        >
+            Browse Open Jobs
+        </a>
+
+    </div>
+
+
+    {% endif %}
+
+
+</div>
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-logo">
+            🎓 Skill<span>Match</span>
+            <p>
+                Connecting candidate talent with exact industry requirements.
+            </p>
+        </div>
+
+        <div class="footer-links">
+            <h4>Quick Links</h4>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'jobsearch' %}">Apply Job</a>
+        </div>
+
+        <div class="footer-links">
+            <h4>Account</h4>
+            <a href="{% url 'register' %}">Register</a>
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 SkillMatch Portal. All rights reserved.</p>
+    </div>
+
+</footer>
+
+</body>
+
+</html>

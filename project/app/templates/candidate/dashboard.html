@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Candidate Dashboard</title>
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family:
+                'Segoe UI',
+                Tahoma,
+                Geneva,
+                Verdana,
+                sans-serif;
+
+            /* Same background as My Applications */
+            background: linear-gradient(135deg,
+                    #4f46e5 0%,
+                    #7c3aed 50%,
+                    #db2777 100%);
+
+            min-height: 100vh;
+
+            padding: 40px 20px;
+
+            color: #334155;
+        }
+
+
+        .dashboard-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    grid-template-areas:
+        "header header"
+        "sidebar main";
+    gap: 25px;
+    align-items: start;
+}
+
+
+        /* HEADER */
+
+        .header {
+
+            background: linear-gradient(135deg, #312e81, #4f46e5, #7c3aed);
+            color: white;
+            padding: 28px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+            grid-area: header;
+    min-width: 0;
+        }
+.dashboard-container > aside {
+    grid-area: sidebar;
+    min-width: 0;
+}
+.dashboard-container > main {
+    grid-area: main;
+    min-width: 0;
+}
+        .welcome-content {
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            color: #ddd6fe;
+            font-size: 0.85rem;
+        }
+
+
+
+
+
+
+        /* =========================
+           COMMON CARD
+        ========================= */
+
+        .card {
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.20);
+
+            border: none;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .section-title {
+
+            color: #1e1b4b;
+
+            font-size: 1.1rem;
+
+            font-weight: 700;
+
+            margin-bottom: 15px;
+
+            padding-bottom: 10px;
+
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+
+        .nav-menu {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+            margin-top: 15px;
+        }
+
+
+        .nav-btn {
+
+            display: block;
+
+            padding: 12px 15px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            color: #334155;
+
+            font-weight: 600;
+
+            font-size: 0.9rem;
+
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+
+            transition: all 0.3s ease;
+
+            text-align: center;
+        }
+
+
+        .nav-btn:hover {
+
+            background: #f3e8ff;
+
+            border-color: #7c3aed;
+
+            color: #7c3aed;
+
+            transform: translateY(-2px);
+        }
+
+
+        .nav-btn-primary {
+
+            background: linear-gradient(135deg,
+                    #4f46e5,
+                    #7c3aed);
+
+            color: white;
+
+            border: none;
+        }
+
+
+        .nav-btn-primary:hover {
+
+            background: linear-gradient(135deg,
+                    #4338ca,
+                    #6d28d9);
+
+            color: white;
+
+            box-shadow:
+                0 5px 15px rgba(79, 70, 229, 0.35);
+        }
+
+
+        /* =========================
+           PROFILE HEADER
+        ========================= */
+
+        .profile-header-inline {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+
+            padding-bottom: 20px;
+
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+
+        .avatar-circle {
+
+            width: 65px;
+
+            height: 65px;
+
+            border-radius: 50%;
+
+            background: linear-gradient(135deg,
+                    #4f46e5,
+                    #7c3aed);
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 1.4rem;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 5px 15px rgba(79, 70, 229, 0.3);
+        }
+
+
+        .profile-title h2 {
+
+            font-size: 1.3rem;
+
+            color: #1e1b4b;
+
+            margin-bottom: 4px;
+        }
+
+
+        .profile-title p {
+
+            font-size: 0.875rem;
+
+            color: #64748b;
+        }
+
+
+        /* =========================
+           INFORMATION GRID
+        ========================= */
+
+        .info-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(180px, 1fr));
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .info-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+
+            background: #f8fafc;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            border: 1px solid #e2e8f0;
+        }
+
+
+        .info-label {
+
+            font-size: 0.72rem;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.05em;
+
+            color: #64748b;
+
+            font-weight: 700;
+        }
+
+
+        .info-value {
+
+            font-size: 0.92rem;
+
+            font-weight: 600;
+
+            color: #334155;
+
+            word-break: break-word;
+        }
+
+
+        /* =========================
+           SKILLS
+        ========================= */
+
+        .skills-wrapper {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .skill-chip {
+
+            background: #f3e8ff;
+
+            color: #6b21a8;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 0.82rem;
+
+            font-weight: 600;
+
+            border: 1px solid #e9d5ff;
+        }
+
+
+        .empty-state {
+
+            font-size: 0.875rem;
+
+            color: #64748b;
+
+            font-style: italic;
+        }
+
+
+        /* =========================
+           RESUME
+        ========================= */
+
+        .resume-box {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 15px;
+
+            background: #f8fafc;
+
+            border: 1px dashed #cbd5e1;
+
+            border-radius: 10px;
+        }
+
+
+        .resume-box strong {
+
+            color: #1e1b4b;
+        }
+
+
+        .resume-link {
+
+            color: #4f46e5;
+
+            font-weight: 700;
+
+            text-decoration: none;
+
+            font-size: 0.9rem;
+
+            white-space: nowrap;
+        }
+
+
+        .resume-link:hover {
+
+            color: #7c3aed;
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 768px) {
+
+            body {
+
+                padding: 25px 12px;
+            }
+
+
+            .dashboard-container {
+
+                grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "header"
+            "sidebar"
+            "main";
+        gap: 18px;
+
+            }
+
+            .header {
+        padding: 22px;
+    }
+
+    .header h1 {
+        font-size: 1.4rem;
+    }
+
+    .card {
+        padding: 20px;
+    }
+            .welcome-header {
+
+                padding: 22px;
+            }
+
+
+            .welcome-header h1 {
+
+                font-size: 1.6rem;
+            }
+
+
+            .card {
+
+                padding: 20px;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .resume-box {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .profile-header-inline {
+
+                align-items: flex-start;
+            }
+
+            .footer {
+                padding: 35px 22px 22px;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+        }
+
+        /* FOOTER */
+
+        .footer {
+            width: 100%;
+            max-width: 1200px;
+            margin: 30px auto 0;
+            background: #0f172a;
+            color: white;
+            padding: 45px 7% 25px;
+            border-radius: 16px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 35px;
+            margin-bottom: 35px;
+        }
+
+        .footer-logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .footer-logo span {
+            color: #0ea5e9;
+        }
+
+        .footer-logo p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 400;
+            line-height: 1.8;
+            margin-top: 12px;
+            max-width: 300px;
+        }
+
+        .footer-links h4 {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            display: block;
+            color: #94a3b8;
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #334155;
+            padding-top: 20px;
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+
+
+    <div class="dashboard-container">
+        <!-- =========================
+         TOP HEADER
+    ========================= -->
+
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="welcome-content">
+                <div>
+                    <h1>Welcome, {{ request.user.first_name }}!</h1>
+                    <p>Manage your profile, applications,
+                        and job preferences</p>
+                </div>
+
+
+            </div>
+        </header>
+
+
+        <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+        <aside class="card">
+
+            <h3 class="section-title">
+                Navigation
+            </h3>
+
+
+            <div class="nav-menu">
+
+
+                <a href="{% url 'candidate_editprofile' %}" class="nav-btn nav-btn-primary">
+                    ✏️ Edit Profile
+                </a>
+
+
+                <a href="{% url 'jobsearch' %}" class="nav-btn">
+                    🔍 Search Jobs
+                </a>
+
+
+                <a href="{% url 'my_applications' %}" class="nav-btn">
+                    📋 My Applications
+                </a>
+
+
+                <a href="{% url 'recommended_jobs' %}" class="nav-btn">
+                    ⭐ Recommended Jobs
+                </a>
+                <a href="{% url 'logoutcandidate'%}" class="nav-btn nav-btn-danger">
+                    🚪 Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =========================
+         MAIN PROFILE
+    ========================= -->
+
+        <main class="card">
+
+
+            <!-- Profile Header -->
+
+            <div class="profile-header-inline">
+
+
+                <div class="avatar-circle">
+
+                    {{ request.user.first_name|slice:":1" }}{{ request.user.last_name|slice:":1" }}
+
+                </div>
+
+
+                <div class="profile-title">
+
+                    <h2>
+                        {{ request.user.first_name }}
+                        {{ request.user.last_name }}
+                    </h2>
+
+                    <p>
+                        {{ profile.location|default:"Location not added" }}
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- Personal Information -->
+
+            <h3 class="section-title">
+                Personal Information
+            </h3>
+
+
+            <div class="info-grid">
+
+
+                <div class="info-group">
+
+                    <span class="info-label">
+                        Email Address
+                    </span>
+
+                    <span class="info-value">
+                        {{ request.user.email }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-group">
+
+                    <span class="info-label">
+                        Phone Number
+                    </span>
+
+                    <span class="info-value">
+                        {{ profile.phone|default:"Not provided" }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-group">
+
+                    <span class="info-label">
+                        Location
+                    </span>
+
+                    <span class="info-value">
+                        {{ profile.location|default:"Not provided" }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-group">
+
+                    <span class="info-label">
+                        Education
+                    </span>
+
+                    <span class="info-value">
+                        {{ profile.education|default:"Not provided" }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-group">
+
+                    <span class="info-label">
+                        Experience
+                    </span>
+
+                    <span class="info-value">
+
+                        {% if profile.experience %}
+
+                        {{ profile.experience }} years
+
+                        {% else %}
+
+                        Not specified
+
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- Skills -->
+
+            <h3 class="section-title">
+                Skills
+            </h3>
+
+
+            <div class="skills-wrapper">
+
+
+                {% for skill in profile.skills.all %}
+
+                <span class="skill-chip">
+                    {{ skill.name }}
+                </span>
+
+                {% empty %}
+
+                <p class="empty-state">
+                    No skills added yet.
+                </p>
+
+                {% endfor %}
+
+
+            </div>
+
+
+
+            <!-- Resume -->
+
+            <h3 class="section-title">
+                Resume Attachment
+            </h3>
+
+
+            {% if profile.resume %}
+
+
+            <div class="resume-box">
+
+                <div>
+
+                    <strong>
+                        📄 Attached Resume
+                    </strong>
+
+                    <p class="empty-state">
+                        {{ profile.resume.name }}
+                    </p>
+
+                </div>
+
+
+                <a href="{{ profile.resume.url }}" target="_blank" class="resume-link">
+                    View Resume ↗
+                </a>
+
+            </div>
+
+
+            {% else %}
+
+
+            <div class="resume-box">
+
+                <span class="empty-state">
+                    No resume uploaded.
+                </span>
+
+            </div>
+
+
+            {% endif %}
+
+
+        </main>
+
+
+    </div>
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-logo">
+                🎓 Skill<span>Match</span>
+                <p>
+                    Connecting candidate talent with exact industry requirements.
+                </p>
+            </div>
+
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'jobsearch' %}">Apply Job</a>
+            </div>
+
+            <div class="footer-links">
+                <h4>Account</h4>
+                <a href="{% url 'register' %}">Register</a>
+                <a href="{% url 'login' %}">Login</a>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 SkillMatch Portal. All rights reserved.</p>
+        </div>
+
+    </footer>
+</body>
+
+</html>
